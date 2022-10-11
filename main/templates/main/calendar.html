@@ -10,9 +10,30 @@
         {{ form }} <input type="submit" value="Выбрать">
     </form>
     <br>
-    <ul>
-    {% for lesson in lessons %}
-        <li>{{lesson}}</li>
-    {% endfor %}
-    </ul>
+    <hr>
+
+     <table>
+        <tr>
+            <th>Время</th>
+            <th>Клиент</th>
+            <th>Комментарий</th>
+        </tr>
+        {% for timer in time_slots %}
+        <tr>
+            <td>{{timer.1}}<a href="{% url 'add_lesson1' date timer.0 %}">+</a></td>
+
+
+            {% for lesson in lessons %}
+                    {% if timer.0 == lesson.time %}
+                        <td><a href="{% url 'profile' lesson.customer_id %}">{{lesson}}</a></td>
+
+                    {% endif %}
+                {% endfor %}
+
+
+            <td></td>
+        </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}
