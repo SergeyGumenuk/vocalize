@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!-- Это комментарий -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Vocalize</title>
+		<link type="text/css" href="{% static 'main/css/style.css' %}" rel="stylesheet">
+		<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+	</head>
+
+	<body>
+		
+		<div class="sidebar">
+			<div class="logo_content">
+				<div class="logo">
+					<i class='bx bxl-c-plus-plus'></i>
+					<div class="logo_name">Vocalize</div>
+				</div>
+				<i class='bx bx-menu' id="btn"></i>
+			</div>
+			<ul class="nav_list">
+				<li>
+					<a href="{% url 'home' %}">
+						<i class='bx bx-grid-alt' ></i>
+						<span class="links_name">Главная</span>
+					</a>
+					<span class="tooltip">Главная</span>
+				</li>
+				{% if request.user.is_authenticated %}
+				<li>
+					<a href="{% url 'customers' %}">
+						<i class='bx bx-user' ></i>
+						<span class="links_name">Клиенты</span>
+					</a>
+					<span class="tooltip">Клиенты</span>
+				</li>
+				<li>
+					<a href="{% url 'calendar' %}">
+						<i class='bx bx-calendar' ></i>
+						<span class="links_name">Календарь</span>
+					</a>
+					<span class="tooltip">Календарь</span>
+				</li>
+				<li>
+					<a href="{% url 'add_lesson' %}">
+						<i class='bx bx-calendar-plus' ></i>
+						<span class="links_name">Добавить урок</span>
+					</a>
+					<span class="tooltip">Добавить урок</span>
+				</li>
+				{% endif %}
+			</ul>
+			<!--profilecontent-->
+			<div class="profile_content">
+				<div class="profile">
+					<div class="profile_details">
+						<!--<img src="images/photo.jpg" alt="Фото">-->
+						<div class="name_job">
+							<div class="name">{{request.user.username}}</div>
+							<div class="job">Web Engineer</div>
+						</div>
+					</div>
+					<i class='bx bx-log-out' id="log_out"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="home_content">
+			<div class="text">Home Content</div>
+		{% block content %}
+		{% endblock %}
+		</div>
+
+		<script>
+			let btn = document.querySelector("#btn");
+			let sidebar = document.querySelector(".sidebar");
+
+			btn.onclick = function() {
+				sidebar.classList.toggle("active");
+			}
+
+		</script>
+
+	</body>
+</html>

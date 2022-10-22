@@ -1,5 +1,10 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    Это страница профиля клиента: {{customer}}
+    {% if customer.photo %}
+    <img src="{{ customer.photo.url }}" width="200" align="left">
+    {% endif %}
+    <p>{{customer}}</p>
+    <p><a href="{% url 'delete_profile' customer.pk %}">Удалить профиль</a></p>
+
 {% endblock %}

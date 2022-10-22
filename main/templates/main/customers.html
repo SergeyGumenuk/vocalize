@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+  <a href="{% url 'add_customer' %}">Добавить клиента</a>
+
+    {% for customer in customers %}
+    <div class="profile-customer">
+        <a href="{% url 'profile' customer.pk %}"><img src="{{customer.photo.url}}" width="200"></a>
+        <p>{{customer.name}}</p>
+    </div>
+    {% endfor %}
+
+{% endblock %}
