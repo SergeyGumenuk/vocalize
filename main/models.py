@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Customer(models.Model):
@@ -13,6 +14,9 @@ class Customer(models.Model):
     def __str__(self):
         return f'{self.name} {self.surname}'
 
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'customer_id': self.pk})
+
 
 class Lesson(models.Model):
     date = models.DateField(verbose_name='Дата')
@@ -25,3 +29,6 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f'{self.customer_id}'
+
+    def get_absolute_url(self):
+        return reverse('lesson', kwargs={'lesson_id': self.pk})

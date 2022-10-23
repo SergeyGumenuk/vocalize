@@ -10,7 +10,7 @@
         {{ form }} <input type="submit" value="Выбрать">
     </form>
     <br>
-    <hr width="750">
+    <hr align="left" width="900">
 
      <table>
         <!--<tr>
@@ -21,7 +21,7 @@
         {% for timer in time_slots %}
         <tr>
             <td>
-                <a href="{% url 'add_lesson1' date timer.0 %}"> {{timer.1}} </a>
+                <a href="{% url 'add_lesson_quick' date timer.0 %}"> {{timer.1}} </a>
             </td>
 
 
