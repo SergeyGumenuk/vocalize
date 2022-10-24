@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, DeleteView
 
-from .forms import CalendarForm, AddLessonForm, AddLessonQuickForm, AddCustomerForm
+from .forms import CalendarForm, AddLessonForm, AddLessonQuickForm, AddCustomerForm, AddMediaFileForm
 from .models import *
 from .forms import TIME_SLOTS
 
@@ -134,6 +134,15 @@ class ShowProfile(LoginRequiredMixin, DetailView):
     context_object_name = 'customer'
     pk_url_kwarg = 'customer_id'
 
+    # def get_queryset(self):
+    #     return Customer.objects.filter(pk=self.kwargs['customer_id']).prefetch_related('mediafile_set')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['media_files'] = context['customer'].mediafile_set.all()           #MediaFile.objects.filter(customer_id=context['customer'].pk).select_related('customer_id')
+        return context
+
+
 # @login_required
 # def show_profile(request, customer_id):
 #     customer = Customer.objects.get(pk=customer_id)
@@ -152,3 +161,25 @@ class DeleteProfile(LoginRequiredMixin, DeleteView):
 # def delete_profile(request, customer_id):
 #     Customer.objects.filter(pk=customer_id).delete()
 #     return redirect(reverse_lazy('customers'))
+
+
+class AddMediaFile(LoginRequiredMixin, CreateView):
+    form_class = AddMediaFileForm
+    template_name = 'main/add_media_file.html'
+    pk_url_kwarg = 'customer_id'
+
+
+class ShowMediaFile(LoginRequiredMixin, DetailView):
+    model = MediaFile
+    template_name = 'main/media_file.html'
+    pk_url_kwarg = 'media_file_id'
+    context_object_name = 'media_file'
+
+
+class DeleteMediaFile(LoginRequiredMixin, DeleteView):
+    model = MediaFile
+    pk_url_kwarg = 'media_file_id'
+
+    def get_success_url(self):
+        customer = Customer.objects.get(pk=self.object.customer_id.pk)
+        return reverse('profile', kwargs={'customer_id': customer.pk})

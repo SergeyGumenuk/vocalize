@@ -1,10 +1,26 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-    {% if customer.photo %}
-    <img src="{{ customer.photo.url }}" width="200" align="left">
-    {% endif %}
-    <p>{{customer}}</p>
-    <p><a href="{% url 'delete_profile' customer.pk %}">Удалить профиль</a></p>
-
+    <div class="profile">
+        <div class="profile-photo">
+            {% if customer.photo %}
+            <img src="{{ customer.photo.url }}" width="200" align="left">
+            {% endif %}
+        </div>
+        <div class="profile-description">
+            <p>Фамилия: {{customer.surname}}</p>
+            <p>Имя: {{customer.name}}</p>
+            <p>Номер телефона: {{customer.phone}}</p>
+            {% if customer.email %}<p>Зарегистрирован: {{customer.time_create|date}}</p>{% endif %}
+            <p><a href="{% url 'delete_profile' customer.pk %}">Удалить профиль</a></p>
+        </div>
+        <div class="profile-media">
+            <hr>
+            <p><h2 align="center">Медиафайлы</h2></p>
+            <a href="{% url 'add_media_file' customer.pk %}"><p>Добавить файл</p></a>
+            {% for f in media_files %}
+            <a href="{{ f.get_absolute_url }}"><p>{{f}}</p></a>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import path
 
 from .views import *
@@ -16,5 +15,8 @@ urlpatterns = [
     path('<int:lesson_id>/delete_lesson/', DeleteLesson.as_view(), name='delete_lesson'),
     path('lesson/<int:lesson_id>/', ShowLesson.as_view(), name='lesson'),
     path('profile/<int:customer_id>/', ShowProfile.as_view(), name='profile'),
+    path('addmediafile/<int:customer_id>/', AddMediaFile.as_view(), name='add_media_file'),
+    path('mediafile/<int:media_file_id>', ShowMediaFile.as_view(), name='media_file'),
+    path('<int:media_file_id>/deletemediafile/', DeleteMediaFile.as_view(), name='delete_media_file')
 
 ]

@@ -3,7 +3,7 @@ from datetime import datetime as dt
 
 from django import forms
 
-from .models import Customer
+from .models import *
 
 
 TIME_SLOTS = ((dt.strptime('09:00:00', '%H:%M:%S').time(), '09:00'), (dt.strptime('09:30:00', '%H:%M:%S').time(), '09:30'),
@@ -25,7 +25,13 @@ TIME_SLOTS = ((dt.strptime('09:00:00', '%H:%M:%S').time(), '09:00'), (dt.strptim
 class AddCustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['name', 'surname', 'photo']
+        fields = ['name', 'surname', 'phone', 'photo', 'email']
+
+
+class AddMediaFileForm(forms.ModelForm):
+    class Meta:
+        model = MediaFile
+        fields = ['customer_id', 'title', 'description', 'file']
 
 
 class CalendarForm(forms.Form):
