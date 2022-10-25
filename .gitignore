@@ -1,13 +1,14 @@
 # Python    cache_________________________________________________________________
 __pycache__/
+vocalize/__pycache__/
 
 # PyCharm   cache_________________________________________________________________
 ../.idea
 
-venv/
+../venv/
 
-media/uploads/
+vocalize/media/uploads/
+
+main/secret_key.py
 
 db.sqlite3
-
-secret_key.py
