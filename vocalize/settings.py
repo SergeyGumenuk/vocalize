@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 
-from main import secret_key
+from vocalize import secret_key
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
