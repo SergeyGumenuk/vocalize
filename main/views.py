@@ -15,50 +15,87 @@ from .forms import TIME_SLOTS
 
 
 class LoginUser(LoginView):
+    """Класс, реализующий вход пользователя"""
     form_model = AuthenticationForm
     template_name = 'main/login.html'
 
 
 class AddCustomer(LoginRequiredMixin, CreateView):
+    """Класс для добавления клиента в систему"""
     template_name = 'main/add_profile.html'
     form_class = AddCustomerForm
     success_url = reverse_lazy('customers')
 
 
 class ShowCustomers(LoginRequiredMixin, ListView):
+    """Класс для отображения списка всех клиентов"""
     model = Customer
     template_name = 'main/customers.html'
     context_object_name = 'customers'
 
 
-def logout_user(request):
-    logout(request)
-    return redirect('home')
+class ShowLesson(LoginRequiredMixin, DetailView):
+    """Класс для отображения конкретного урока по его id"""
+    model = Lesson
+    template_name = 'main/lesson.html'
+    context_object_name = 'lesson'
+    pk_url_kwarg = 'lesson_id'
 
 
-def index(request):
-    return render(request, 'main/base.html', {'title': 'Главная страница'})
+class DeleteLesson(LoginRequiredMixin, DeleteView):
+    """Класс для удаления урока"""
+    model = Lesson
+    success_url = reverse_lazy('calendar')
+    pk_url_kwarg = 'lesson_id'
 
 
-# class Calendar(ListView):
-#     model = Lesson
-#     template_name = 'main/calendar.html'
-#     context_object_name = 'lessons'
-#
-#     def get_queryset(self, request):
-#         if request.method == 'post':
-#             lessons = Lesson.objects.filter(date=request.POST['date'])
-#         else:
-#             lessons = Lesson.objects.filter(date=datetime.date.today())
-#         return lessons
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['time_slots'] = TIME_SLOTS
-#         context['title'] = 'Календарь'
-#         return context
+class ShowProfile(LoginRequiredMixin, DetailView):
+    """Клас для отображеня профиля клиента по его id"""
+    model = Customer
+    template_name = 'main/profile.html'
+    context_object_name = 'customer'
+    pk_url_kwarg = 'customer_id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['media_files'] = context['customer'].mediafile_set.all()
+        return context
+
+
+class DeleteProfile(LoginRequiredMixin, DeleteView):
+    """Класс для удаления клиента из системы"""
+    model = Customer
+    success_url = reverse_lazy('customers')
+    pk_url_kwarg = 'customer_id'
+
+
+class AddMediaFile(LoginRequiredMixin, CreateView):
+    """Класс для добавления аудио или видио на страницу профиля клиента"""
+    form_class = AddMediaFileForm
+    template_name = 'main/add_media_file.html'
+
+
+class ShowMediaFile(LoginRequiredMixin, DetailView):
+    """Класс для отображения конкретного файла клиента по его id"""
+    model = MediaFile
+    template_name = 'main/media_file.html'
+    pk_url_kwarg = 'media_file_id'
+    context_object_name = 'media_file'
+
+
+class DeleteMediaFile(LoginRequiredMixin, DeleteView):
+    """Класс для удаления аудио или видео файла по его id"""
+    model = MediaFile
+    pk_url_kwarg = 'media_file_id'
+
+    def get_success_url(self):
+        customer = Customer.objects.get(pk=self.object.customer_id.pk)
+        return reverse('profile', kwargs={'customer_id': customer.pk})
+
+
 @login_required
 def calendar(request):
+    """Функция выводит на экран выбранную дату и уроки, назначенные на эту дату"""
     if request.method == 'POST':
         form = CalendarForm(request.POST)
         date = request.POST['date']
@@ -73,12 +110,13 @@ def calendar(request):
         'form': form,
         'time_slots': TIME_SLOTS,
         'date': date
-        }
+    }
     return render(request, 'main/calendar.html', context=context)
 
 
 @login_required
 def add_lesson(request):
+    """Функция добавляет урок в календарь на указанную дату"""
     form = AddLessonForm()
     if request.method == 'POST':
         Lesson.objects.create(date=request.POST['date'],
@@ -90,6 +128,7 @@ def add_lesson(request):
 
 @login_required
 def add_lesson_quick(request, date, time):
+    """Функция добавляет урок на указанное в интерфейсе время выведенной на экран даты"""
     form = AddLessonQuickForm()
     if request.method == 'POST':
         if Lesson.objects.filter(date=date, time=time).exists():
@@ -102,84 +141,12 @@ def add_lesson_quick(request, date, time):
     return render(request, 'main/add_lesson.html', {'form': form})
 
 
-class ShowLesson(LoginRequiredMixin, DetailView):
-    model = Lesson
-    template_name = 'main/lesson.html'
-    context_object_name = 'lesson'
-    pk_url_kwarg = 'lesson_id'
-
-# @login_required
-# def show_lesson(request, lesson_id):
-#     lesson = Lesson.objects.get(pk=lesson_id)
-#     context = {
-#         'lesson': lesson
-#     }
-#     return render(request, 'main/lesson.html', context=context)
+def logout_user(request):
+    """Функция осуществляет выход пользователя из системы"""
+    logout(request)
+    return redirect('home')
 
 
-class DeleteLesson(LoginRequiredMixin, DeleteView):
-    model = Lesson
-    success_url = reverse_lazy('calendar')
-    pk_url_kwarg = 'lesson_id'
-
-# @login_required
-# def delete_lesson(request, lesson_id):
-#     Lesson.objects.filter(pk=lesson_id).delete()
-#     return redirect(reverse_lazy('calendar'))
-
-
-class ShowProfile(LoginRequiredMixin, DetailView):
-    model = Customer
-    template_name = 'main/profile.html'
-    context_object_name = 'customer'
-    pk_url_kwarg = 'customer_id'
-
-    # def get_queryset(self):
-    #     return Customer.objects.filter(pk=self.kwargs['customer_id']).prefetch_related('mediafile_set')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['media_files'] = context['customer'].mediafile_set.all()           #MediaFile.objects.filter(customer_id=context['customer'].pk).select_related('customer_id')
-        return context
-
-
-# @login_required
-# def show_profile(request, customer_id):
-#     customer = Customer.objects.get(pk=customer_id)
-#     context = {
-#         'customer': customer
-#     }
-#     return render(request, 'main/profile.html', context=context)
-
-
-class DeleteProfile(LoginRequiredMixin, DeleteView):
-    model = Customer
-    success_url = reverse_lazy('customers')
-    pk_url_kwarg = 'customer_id'
-
-# @login_required
-# def delete_profile(request, customer_id):
-#     Customer.objects.filter(pk=customer_id).delete()
-#     return redirect(reverse_lazy('customers'))
-
-
-class AddMediaFile(LoginRequiredMixin, CreateView):
-    form_class = AddMediaFileForm
-    template_name = 'main/add_media_file.html'
-    pk_url_kwarg = 'customer_id'
-
-
-class ShowMediaFile(LoginRequiredMixin, DetailView):
-    model = MediaFile
-    template_name = 'main/media_file.html'
-    pk_url_kwarg = 'media_file_id'
-    context_object_name = 'media_file'
-
-
-class DeleteMediaFile(LoginRequiredMixin, DeleteView):
-    model = MediaFile
-    pk_url_kwarg = 'media_file_id'
-
-    def get_success_url(self):
-        customer = Customer.objects.get(pk=self.object.customer_id.pk)
-        return reverse('profile', kwargs={'customer_id': customer.pk})
+def index(request):
+    """Функция выводит главную страницу"""
+    return render(request, 'main/base.html', {'title': 'Главная страница'})

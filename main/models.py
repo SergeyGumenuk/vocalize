@@ -4,6 +4,10 @@ from django.urls import reverse
 
 
 class Customer(models.Model):
+    """Класс, характеризующий клиента вокальной студии.
+    Добавлять клиентов будет основной пользователь.
+    Клиенты не будут иметь доступа в систему"""
+
     name = models.CharField(max_length=50, verbose_name='Имя')
     surname = models.CharField(max_length=50, verbose_name='Фамилия')
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, verbose_name='Фото')
@@ -24,6 +28,7 @@ class Customer(models.Model):
 
 
 class Lesson(models.Model):
+    """Класс, хараутеризующий сущность урока"""
     date = models.DateField(verbose_name='Дата')
     time = models.TimeField(verbose_name='Время', null=True)
     customer_id = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='Клиент')
@@ -40,6 +45,9 @@ class Lesson(models.Model):
 
 
 class MediaFile(models.Model):
+    """Класс, характеризующий сущность медиафайла (авторской песни или клипа),
+    который может загружать пользователь на страницу клиента"""
+
     customer_id = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='Клиент')
     title = models.CharField(max_length=100, verbose_name='Название')
     description = models.TextField(blank=True, verbose_name='Описание')
