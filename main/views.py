@@ -74,6 +74,11 @@ class AddMediaFile(LoginRequiredMixin, CreateView):
     form_class = AddMediaFileForm
     template_name = 'main/add_media_file.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['customer_id'] = self.kwargs['customer_id']
+        return initial
+
 
 class ShowMediaFile(LoginRequiredMixin, DetailView):
     """Класс для отображения конкретного файла клиента по его id"""
