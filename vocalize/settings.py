@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
     'main.apps.MainConfig',
+    'appointments.apps.AppointmentsConfig',
+    'profiles.apps.ProfilesConfig',
 ]
 
 MIDDLEWARE = [
@@ -82,11 +84,11 @@ WSGI_APPLICATION = 'vocalize.wsgi.application'
 
 
 DATABASES = {
-    'default': {
+    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
-    'postgres': {
+    'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': secret_key.DB_NAME,
             'USER': secret_key.DB_USER,

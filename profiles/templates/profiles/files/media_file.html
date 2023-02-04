@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="mediafile">
+    <video width="400" height="300" controls="controls">
+    <source src="{{media_file.file.url}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+    </video>
+    <div class="mediafile-title">{{media_file.title}}</div>
+    <div class="mediafile-description">{{media_file.description}}</div>
+    <p><a href="{% url 'delete_media_file' media_file.pk %}">Удалить запись</a></p>
+</div>
+{% endblock %}

@@ -1,15 +1,41 @@
-{% extends 'main/base.html' %}
-
-{% block content %}
-    <h2>Вход</h2>
-    {% if user.is_authenticated %}
-        <p>Вы уже выполнили вход.</p>
-    {% else %}
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="hidden" name="next" value="{{next}}">
-            <input type="submit" value="Войти">
-        </form>
-    {% endif %}
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'main/css/login.css' %}">
+</head>
+<body>
+    <section>
+        <div class="imgBx">
+            <img src="{% static 'main/img/1.jpg' %}" alt="">
+        </div>
+        <div class="contentBx">
+            <div class="formBx">
+                <h2>Vocalize</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="inputBx">
+                        <span>Username</span>
+                        <input type="text" name="username">
+                    </div>
+                    <div class="inputBx">
+                        <span>Password</span>
+                        <input type="password" name="password">
+                    </div>
+                    <div class="remember">
+                        <label>
+                            <input type="checkbox" name="remember_me"> Remember me
+                        </label>
+                    </div>
+                    <div class="inputBx">
+                        <input type="submit" value="Login">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -3,7 +3,7 @@ from datetime import datetime as dt
 
 from django import forms
 
-from .models import *
+from profiles.models import Customer, MediaFile
 
 
 TIME_SLOTS = ((dt.strptime('09:00:00', '%H:%M:%S').time(), '09:00'), (dt.strptime('09:30:00', '%H:%M:%S').time(), '09:30'),

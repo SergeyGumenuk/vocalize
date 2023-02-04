@@ -8,6 +8,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
+    path('', include('appointments.urls')),
+    path('', include('profiles.urls')),
 ]
 
 if settings.DEBUG:

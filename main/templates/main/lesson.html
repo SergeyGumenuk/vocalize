@@ -1,6 +1,0 @@
-{% extends 'main/base.html' %}
-
-{% block content %}
-<p>Урок <a href="{% url 'profile' lesson.customer_id.pk %}">{{lesson}}</a></p>
-<p><a href="{% url 'delete_lesson' lesson.pk %}">Удалить урок</a></p>
-{% endblock %}

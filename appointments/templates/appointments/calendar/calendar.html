@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form }} <input type="submit" value="Выбрать">
+    </form>
+    <br>
+    <hr align="left" width="900">
+
+     <table>
+        <!--<tr>
+            <th>Время</th>
+            <th>Клиент</th>
+            <th>Комментарий</th>
+        </tr>-->
+        {% for timer in time_slots %}
+        <tr>
+            <td>
+                <a href="{% url 'add_lesson_quick' date timer.0 %}"> {{timer.1}} </a>
+            </td>
+
+
+            {% for lesson in lessons %}
+                    {% if timer.0 == lesson.time %}
+                        <td><a href="{% url 'lesson' lesson.pk %}">{{lesson}}</a></td>
+
+                    {% endif %}
+                {% endfor %}
+
+
+            <td></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
