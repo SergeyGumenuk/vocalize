@@ -1,0 +1,211 @@
+*{
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+*,*::before, *:after{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+:focus,:active{outline: none;}
+a:focus,a:active{outline: none;}
+
+nav, footer, header, aside{display: block;}
+
+html, body{
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+input,button,textarea{font-family: inherit;}
+
+input::-ms-clear{display: none;}
+button{cursor: pointer;}
+button::-moz-focus-inner {padding: 0;border: 0;}
+a, a:visited{text-decoration: none;}
+a:hover{text-decoration: none;}
+ul li{list-style: none;}
+img{vertical-align: top;}
+
+h1,h2,h3,h4,h5,h6{font-size: inherit;font-weight: 400;}
+/*---------------------------------------------------------*/
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(236, 181, 181);
+    height: 100%;
+}
+
+.wrapper{
+
+}
+.container{
+    max-width: 990px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 50;
+}
+.header:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(50,50,50,.9);
+    z-index: 2;
+}
+.header__body{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+.header__logo{
+    position: relative;
+    flex: 0 1 50%;
+    font-size: 50px;
+    color: #fff;
+    font-weight: 900;
+    overflow: hidden;
+    z-index: 3;
+    min-width: min-content;
+}
+.header__logo img{
+    max-width: 100%;
+    overflow: hidden;
+}
+.header__burger{
+    display: none;
+}
+.header__menu{}
+
+.header__list{
+    display: flex;
+    position: relative;
+    z-index: 2;
+}
+.header__list li{
+    list-style: none;
+    margin: 0px 0px 0px 20px;
+}
+.header__link{
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+@media (max-width: 881px){
+    .header__link{
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 767px){
+    .header__body{
+        height: 60px;
+    }
+    .header__burger{
+        display: block;
+        position: relative;
+        width: 30px;
+        height: 20px;
+        z-index: 3;
+    }
+    .header__burger span{
+        position: absolute;
+        background-color: #fff;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        top: 9px;
+        transition: all 0.3s ease 0s;
+    }
+    .header__burger:before,
+    .header__burger:after{
+        content: '';
+        background-color: #fff;
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        left: 0;
+        transition: all 0.3s ease 0s;
+    }
+    .header__burger:before{
+        top: 0px;
+    }
+    .header__burger:after{
+        bottom: 0px;
+    }
+    .header__logo{
+        font-size: 40px;
+    }
+    .header__burger.active span {
+        transform: scale(0);
+    }
+    .header__burger.active:before {
+        transform: rotate(45deg);
+        top: 9px;
+    }
+    .header__burger.active:after {
+        transform: rotate(-45deg);
+        bottom: 9px;
+    }
+    .header__menu{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 200%;
+        top: 60px;
+        overflow: auto;
+        background-color: rgba(50,50,50,.8);
+        padding: 70px 10px 20px 10px;
+        transition: all 0.3s ease 0s;
+    }
+    .header__menu.active{
+        left: 50%;
+    }
+    .header__list{
+        display: block;
+    }
+    .header__list li{
+        margin: 0px 0px 40px 0px;
+        border-bottom: 1px solid white;
+    }
+    .header__link{
+        font-size: 28px;
+        text-transform: none;
+    }
+}
+
+.content{
+    padding: 100px 0px 0px 0px;
+}
+.content__text{
+    font-size: 18px;
+    line-height: 25px;
+}
+.content__text p{
+    margin: 0px 0px 20px 0px;
+}
+@media (max-width: 767px){
+    .content{
+        padding: 70px 0px 0px 0px;
+    } 
+}
