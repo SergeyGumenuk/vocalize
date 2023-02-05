@@ -120,6 +120,7 @@ body {
 @media (max-width: 767px){
     .header__body{
         height: 60px;
+        padding: 0 20px;
     }
     .header__burger{
         display: block;
@@ -189,7 +190,7 @@ body {
         border-bottom: 1px solid white;
     }
     .header__link{
-        font-size: 28px;
+        font-size: 25px;
         text-transform: none;
     }
 }
